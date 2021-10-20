@@ -1,0 +1,17 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Viettech Demo";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+</div>
+<div class="card">
+    <div class="col-sm-12" style="padding:20px">
+        <a onclick="jQueryModalGet('?handler=CreateOrEdit','Create Employee')" class="btn bg-success" style="cursor:pointer;">
+            Create Customer
+        </a>
+    </div>
+    <div id="viewAll" class="card-body table-responsive"></div>
+</div>
