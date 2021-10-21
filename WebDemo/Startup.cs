@@ -21,6 +21,7 @@ namespace WebDemo
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHttpClient();
             services.AddRazorPages().AddNewtonsoftJson();
             services.AddControllers().AddNewtonsoftJson();
             services.AddDbContext<AppDbContext>(o => o.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
