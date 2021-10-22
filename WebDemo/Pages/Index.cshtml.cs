@@ -20,23 +20,22 @@ namespace WebDemo.Pages
 
         public async Task<PartialViewResult> OnGetCustomerListPartial()
         {
-            Customers = await customerService.GetListAsync();
-
+            var customers = await customerService.GetListAsync();
             return new PartialViewResult
             {
                 ViewName = "_CustomerList",
-                ViewData = new ViewDataDictionary<List<ViewModels.Customer>>(ViewData, Customers)
+                ViewData = new ViewDataDictionary<List<ViewModels.Customer>>(ViewData, customers)
             };
         }
 
         public async Task<JsonResult> OnGetCustomerUpdateAsync(int id = 0)
         {
             if (id == 0)
-                return new JsonResult(new { isValid = true, html = await renderService.ToStringAsync("_CustomerUpdate", new ViewModels.Customer()) });
+                return await LoadCustomerAsync(new ViewModels.Customer(), true);
             else
             {
                 var customer = await customerService.GetAsync(id);
-                return new JsonResult(new { isValid = true, html = await renderService.ToStringAsync("_CustomerUpdate", customer) });
+                return await LoadCustomerAsync(customer, true);
             }
         }
 
@@ -50,17 +49,30 @@ namespace WebDemo.Pages
                 else
                     await customerService.UpdateAsync(customer);
 
-                Customers = await customerService.GetListAsync();
-                var html = await renderService.ToStringAsync("_CustomerList", Customers);
-                return new JsonResult(new { isValid = true, html = html });
+                return await LoadCustomersAsync();
             }
             else
-            {
-                var html = await renderService.ToStringAsync("_CustomerUpdate", customer);
-                return new JsonResult(new { isValid = false, html = html });
-            }
+                return await LoadCustomerAsync(customer, false);
         }
 
-        public List<ViewModels.Customer> Customers { get; set; }
+        public async Task<JsonResult> OnPostDeleteAsync(int id)
+        {
+            await customerService.DeleteAsync(id);
+
+            return await LoadCustomersAsync();
+        }
+
+        private async Task<JsonResult> LoadCustomersAsync()
+        {
+            var customers = await customerService.GetListAsync();
+            var html = await renderService.ToStringAsync("_CustomerList", customers);
+            return new JsonResult(new { isValid = true, html = html });
+        }
+
+        private async Task<JsonResult> LoadCustomerAsync(ViewModels.Customer customer, bool isValid)
+        {
+            var html = await renderService.ToStringAsync("_CustomerUpdate", customer);
+            return new JsonResult(new { isValid = isValid, html = html });
+        }
     }
 }

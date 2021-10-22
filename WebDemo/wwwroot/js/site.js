@@ -72,3 +72,4 @@ $(function () {
         $('#customerList').load('?handler=CustomerListPartial');
     });
 });
+

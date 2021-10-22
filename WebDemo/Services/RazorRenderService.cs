@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -37,7 +38,7 @@ namespace WebDemo.Services
 
         }
 
-        public async Task<string> ToStringAsync<T>(string pageName, T model) where T : class
+        public async Task<string> ToStringAsync<T>(string pageName, T model)
         {
             var actionContext = new ActionContext(httpContext.HttpContext, httpContext.HttpContext.GetRouteData(), this.actionContext.ActionContext.ActionDescriptor);
 
