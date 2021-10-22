@@ -23,7 +23,7 @@
                     <td>@customer.PhoneNumber</td>
                     <td>@customer.Email</td>
                     <td text-right">
-                        <a onclick="jQueryModalGet('?handler=CustomerUpdate&id=@customer.Id','Edit Customer')" class="btn btn-info text-white"> Edit</a>
+                        <button onclick="jQueryModalGet('?handler=CustomerUpdate&id=@customer.Id','Edit Customer')" class="btn btn-info text-white"> Edit</button>
                         <form method="post" asp-page="Index" asp-route-id="@customer.Id" asp-page-handler="Delete" onsubmit="return jQueryModalDelete(this)" class="d-inline">
                             <button type="submit" class="btn btn-danger text-white"> Delete</button>
                         </form>
