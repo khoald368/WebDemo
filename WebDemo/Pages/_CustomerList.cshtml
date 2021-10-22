@@ -1,0 +1,35 @@
+﻿@model List<ViewModels.Customer>
+
+<table class="table table-bordered table-striped" id="customerList">
+    <thead class="thead-light">
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Address</th>
+            <th>PhoneNumber</th>
+            <th>Email</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Count() != 0)
+        {
+            @foreach (var customer in Model)
+            {
+                <tr>
+                    <td>@customer.Id</td>
+                    <td>@customer.Name</td>
+                    <td>@customer.Address</td>
+                    <td>@customer.PhoneNumber</td>
+                    <td>@customer.Email</td>
+                    <td text-right">
+                        <a onclick="jQueryModalGet('?handler=CustomerUpdate&id=@customer.Id','Edit Customer')" class="btn btn-info text-white"> Edit</a>
+                        <form method="post" asp-page="Index" asp-route-id="@customer.Id" asp-page-handler="Delete" onsubmit="return jQueryModalDelete(this)" class="d-inline">
+                            <button type="submit" class="btn btn-danger text-white"> Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

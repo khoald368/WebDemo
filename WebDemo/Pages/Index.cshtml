@@ -1,13 +1,22 @@
 ﻿@page
-@using System.Net.Http;
-@using System.Text.Json
-@using System.Text.Json.Serialization;
-@using WebDemo.ViewModels;
-@inject IHttpClientFactory clientFactory
 
 @model IndexModel
 @{
     ViewData["Title"] = "Viettech Demo";
 }
 
- 
+<div class="text-center">
+    <h1 class="display-4">Customers Management</h1>
+</div>
+
+<div class="card">
+    <div class="col-sm-12" style="padding:20px">
+        <a onclick="jQueryModalGet('?handler=CustomerUpdate','Create Customer')" class="btn bg-success">
+            Create
+        </a>
+        <a id="reload" class="btn bg-warning">
+            Reload
+        </a>
+    </div>
+    <div id="customerList" class="card-body table-responsive"></div>
+</div>

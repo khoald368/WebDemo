@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,13 +22,17 @@ namespace WebDemo
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddHttpClient();
+            services.AddHttpContextAccessor();
+            services.AddTransient<IActionContextAccessor, ActionContextAccessor>();
+
             services.AddRazorPages().AddNewtonsoftJson();
             services.AddControllers().AddNewtonsoftJson();
             services.AddDbContext<AppDbContext>(o => o.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddSwaggerGen(o => o.SwaggerDoc("v1", new OpenApiInfo { Title = "Web Demo", Version = "v1", Description = "This is a web demonstration" }));
 
+            services.AddScoped<IRazorRenderService, RazorRenderService>();
             services.AddScoped<ICustomerService, CustomerService>();
+
+            services.AddSwaggerGen(o => o.SwaggerDoc("v1", new OpenApiInfo { Title = "Web Demo", Version = "v1", Description = "This is a web demonstration" }));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
