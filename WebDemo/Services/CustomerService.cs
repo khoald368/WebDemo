@@ -18,7 +18,7 @@ namespace WebDemo.Services
 
         public async Task<List<ViewModels.Customer>> GetListAsync()
         {
-            return await dbContext.Customers.ProjectToType<ViewModels.Customer>().ToListAsync();
+            return await dbContext.Customers.OrderBy(o => o.Id).ProjectToType<ViewModels.Customer>().ToListAsync();
         }
 
         public async Task<ViewModels.Customer> GetAsync(int id)
